@@ -1,0 +1,49 @@
+name = "hoanlai"
+main = "src/index.ts"
+compatibility_date = "2026-08-17"
+workers_dev = true
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 0.1
+persist = true
+
+[[routes]]
+pattern = "hoanlai.id.vn"
+custom_domain = true
+
+[[routes]]
+pattern = "www.hoanlai.id.vn"
+custom_domain = true
+
+[vars]
+CASHBACK_RATE = "0.60"
+MIN_PAYOUT_VND = "50000"
+AT_SHOPEE_CAMPAIGN_ID = "4751584435713464237"
+AT_API_BASE = "https://api.accesstrade.vn"
+TURNSTILE_SITE_KEY = "0x4AAAAAAESsPyHuWNfILVqI"
+TURNSTILE_HOSTNAMES = "hoanlai.id.vn,www.hoanlai.id.vn,hoanlai.hoanlaivn.workers.dev"
+SERVICE_MODE = "closed_beta"
+BUSINESS_LEGAL_NAME = ""
+BUSINESS_ADDRESS = ""
+SUPPORT_EMAIL = ""
+APP_ORIGIN = "https://hoanlai.id.vn"
+EMAIL_FROM = "Hoàn Lại <no-reply@notify.hoanlai.id.vn>"
+
+# Chạy đồng bộ 15 phút/lần.
+[triggers]
+crons = ["*/15 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cashback-db"
+database_id = "b649a51f-c225-4300-9bef-5b6023a7df3e"

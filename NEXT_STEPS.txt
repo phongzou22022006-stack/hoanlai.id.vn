@@ -1,0 +1,63 @@
+BƯỚC TIẾP THEO — TRẠNG THÁI PRODUCTION
+
+ĐÃ HOÀN TẤT
+- [x] Worker, D1, tên miền hoanlai.id.vn và SSL Cloudflare.
+- [x] Secret: AT_ACCESS_KEY, ADMIN_SECRET, BANK_DATA_KEY, RESEND_API_KEY, TURNSTILE_SECRET.
+- [x] Turnstile cho đăng nhập, đăng ký và rút tiền.
+- [x] Mã hóa thông tin nhận tiền bằng BANK_DATA_KEY.
+- [x] Chỉ cộng cashback khi ACCESSTRADE trả status=1 và is_confirmed=1.
+- [x] Chỉ gán đơn khi tracking ID khớp link_requests do hệ thống tạo.
+- [x] Unique index chống tạo hai yêu cầu rút đang chờ cho cùng thành viên.
+- [x] Audit thao tác tiền và quản trị.
+- [x] Baseline 7 migration trên D1 production ngày 17/08/2026.
+- [x] Backup trước baseline: backups/cashback-db-pre-baseline-2026-08-17.sql.
+- [x] Migration 008: lưu trạng thái đồng bộ ACCESSTRADE và hiển thị sức khỏe trên admin.
+- [x] D1 Time Travel tự động và script backup SQL thủ công `backup-d1.ps1`.
+- [x] Cảnh báo webhook khi đồng bộ bắt đầu lỗi hoặc phục hồi; không gửi lặp mỗi cron.
+- [x] Tự kiểm tra campaign ACCESSTRADE đã duyệt và hiển thị ID/trạng thái trong admin.
+- [x] Migration 010: ghi trạng thái kiểm thử Turnstile nhưng không lưu token.
+- [x] Backup trước migration 010: backups/cashback-db-pre-010-2026-08-17.sql.
+- [x] Bật Cloudflare Workers Logs/Traces và health check D1 + đồng bộ tại /health.
+- [x] Admin có bảng đối soát tiền, cảnh báo đơn chưa gán, sai công thức và tài khoản vượt số dư.
+- [x] Số tài khoản bị che mặc định; muốn xem phải nhập lại mật khẩu admin và được audit.
+- [x] Đánh dấu đã trả bắt buộc có mã giao dịch/nội dung chuyển khoản; từ chối bắt buộc có lý do.
+- [x] Tự dọn session, rate-limit bucket, mã khôi phục và log Turnstile hết hạn.
+- [x] npm audit ngày 17/08/2026: 0 lỗ hổng.
+- [x] Smoke test production tự động bằng `npm run verify:production`.
+- [x] Migration 011: chống một tài khoản ngân hàng/ví dùng cho nhiều thành viên bằng HMAC fingerprint.
+- [x] Khóa rút tiền 24 giờ sau khi đổi nơi nhận tiền; snapshot nơi nhận được lưu cùng yêu cầu rút.
+- [x] Khiếu nại có mã theo dõi riêng, lịch sử cho người dùng và quy trình xử lý/audit trong admin.
+- [x] Backup trước migration 011: backups/cashback-db-pre-011-2026-08-17.sql.
+- [x] Tự thử lại tối đa 3 lần cho request GET ACCESSTRADE khi timeout/429/5xx.
+- [x] Migration 012: phiên bản hóa chấp thuận điều khoản/chính sách và khóa thao tác thương mại cho tài khoản chưa đồng ý.
+- [x] Người dùng tự đổi mật khẩu, tải bản sao dữ liệu, yêu cầu chỉnh sửa hoặc đóng tài khoản; admin có workflow và audit.
+- [x] Tối thiểu hóa dữ liệu: xóa payload ACCESSTRADE thô cũ sau backup và chỉ lưu snapshot chuẩn hóa cho lần đồng bộ mới.
+- [x] Admin có bảng kiểm sẵn sàng mở thương mại và giữ SERVICE_MODE=closed_beta khi còn điều kiện bắt buộc.
+- [x] Backup trước migration 012: backups/cashback-db-20260817-233946.sql (SHA256 03574B8A3E533EEE65F12F647DB17DCF1D155D945F2F88769B79367104B4C69A).
+- [x] Deploy production version 1682fccf-95fe-4e75-8c0c-fe4b12c729d7; smoke test D1/API bảo vệ đạt.
+- [x] Resend đã xác minh notify.hoanlai.id.vn; quên mật khẩu gửi mã tự động, mã băm một chiều và hết hạn sau 30 phút.
+- [x] Deploy email production version e61bd315-df80-4405-a155-e09053dc269c; smoke test D1/API bảo vệ đạt ngày 18/08/2026.
+- [x] Migration 013: xác minh email bằng liên kết băm một chiều, hết hạn sau 24 giờ và chỉ dùng một lần.
+- [x] Khóa tạo link, đổi nơi nhận tiền và rút tiền cho tới khi email được xác minh; tài khoản vẫn đăng nhập được để xem dữ liệu/hỗ trợ.
+- [x] Backup trước migration 013: backups/cashback-db-20260818-003659.sql (SHA256 9FECA0A4F4EB839A91F413A65165089333E736337470321DD2FFD921CD37D44F).
+- [x] Deploy production version a0fb63d8-7d44-4480-9d2c-70fcdb25ab8c; smoke test D1, header bảo mật và API xác minh email đạt ngày 18/08/2026.
+
+CẦN HOÀN TẤT TRƯỚC KHI MỞ CÔNG KHAI
+- [x] Dashboard ACCESSTRADE xác nhận đã vào được chiến dịch "Shopee Việt Nam Smartlink cho tất cả thiết bị" ngày 17/08/2026.
+- [x] Đã lấy và cấu hình Campaign ID Shopee từ trang "Tạo link ngay": 4751584435713464237.
+- [x] Đã xác nhận AT_ACCESS_KEY tạo được tracking link Shopee qua go.isclix.com bằng Campaign ID đã cấu hình ngày 17/08/2026.
+- [ ] Test API ACCESSTRADE bằng một giao dịch thật giá trị nhỏ.
+- [ ] Xác nhận transaction thật có utm_content/sub3, status và is_confirmed đúng như tài liệu tài khoản.
+- [x] D1 xác nhận Turnstile đã nhận token thật và đã chặn token dùng lại ngày 18/08/2026; không lưu token.
+- [x] Cron ACCESSTRADE đã trở lại success lúc 16:31 UTC ngày 17/08/2026 sau bản vá retry.
+- [ ] Kiểm thử đầy đủ: đăng ký, đăng nhập, tạo link, ghi nhận đơn, duyệt tiền, rút tiền và admin xử lý.
+- [x] Mã cảnh báo email/webhook, giới hạn tần suất, audit và nút "Thử cảnh báo" đã triển khai (Worker `2a88386f-d3de-4325-b1bb-e3aed60886a7`).
+- [ ] Thêm secret ALERT_EMAIL (khuyến nghị) hoặc ALERT_WEBHOOK_URL, rồi bấm "Thử cảnh báo" trong admin để xác nhận kênh thật.
+- [ ] Điền BUSINESS_LEGAL_NAME, BUSINESS_ADDRESS và SUPPORT_EMAIL bằng thông tin được phép công khai.
+- [ ] Gửi thử email quên mật khẩu production vào tài khoản thật; kiểm tra Inbox/Spam, link điền sẵn mã và đặt lại mật khẩu thành công.
+- [x] Đã bổ sung xác minh email tự động khi đăng ký; token không nằm trong URL gửi lên máy chủ và không lưu bản rõ trong D1.
+- [ ] Hai tài khoản đang hoạt động mở tab Tài khoản → Gửi email xác minh → bấm liên kết trong email. D1 hiện còn 2 tài khoản chưa xác minh.
+- [ ] Hai tài khoản cũ đăng nhập và chấp thuận phiên bản điều khoản/chính sách 17/08/2026.
+- [ ] Rà soát nội dung pháp lý với luật sư/kế toán trước khi thu thập dữ liệu và chi tiền thật.
+
+KHÔNG gửi API key/secret vào chat hoặc commit lên Git.

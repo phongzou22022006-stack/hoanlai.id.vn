@@ -1,0 +1,20 @@
+# KHÔNG commit file .dev.vars thật lên Git.
+# Lấy Access Key trong ACCESSTRADE -> Trợ giúp -> APIs.
+AT_ACCESS_KEY=YOUR_ACCESSTRADE_ACCESS_KEY
+
+# Tự đặt chuỗi dài ngẫu nhiên, dùng để mở endpoint admin.
+ADMIN_SECRET=CHANGE_ME_TO_A_LONG_RANDOM_SECRET
+
+# Khóa mã hóa thông tin ngân hàng, tối thiểu 32 ký tự ngẫu nhiên.
+BANK_DATA_KEY=CHANGE_ME_TO_A_RANDOM_32_PLUS_CHARACTER_SECRET
+
+# Resend: gửi email khôi phục và xác minh từ no-reply@notify.hoanlai.id.vn.
+RESEND_API_KEY=re_YOUR_RESEND_API_KEY
+# Địa chỉ quản trị riêng tư nhận cảnh báo vận hành. Production lưu bằng `wrangler secret put ALERT_EMAIL`.
+ALERT_EMAIL=admin-private@example.com
+
+# Cloudflare Turnstile secret của widget production.
+TURNSTILE_SECRET=YOUR_TURNSTILE_SECRET
+
+# Tùy chọn: webhook HTTPS nhận cảnh báo sync_failed và sync_recovered.
+ALERT_WEBHOOK_URL=https://example.com/your-private-webhook
